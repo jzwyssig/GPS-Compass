@@ -10,5 +10,6 @@
     <string name="button_select">Select Target</string>
     <string name="target_name">Name</string>
     <string name="set_button">set</string>
+    <string name="radio_current_location">use current location</string>
 
 </resources>
