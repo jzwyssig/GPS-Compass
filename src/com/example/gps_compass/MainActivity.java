@@ -11,10 +11,9 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		Log.i("GPS-Compass","test");
 	}
 	
-	//Janick ist doof
+	//David ist doof
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
