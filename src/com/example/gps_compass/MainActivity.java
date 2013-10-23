@@ -13,7 +13,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 	}
 	
-	//David ist doof
+	//Gian is awesome
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
