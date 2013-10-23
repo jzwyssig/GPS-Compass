@@ -22,6 +22,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.example.gps_compass.SelectTarget"
+            android:label="@string/title_activity_select_target" >
+        </activity>
+        <activity
+            android:name="com.example.gps_compass.ChoseTarget"
+            android:label="@string/title_activity_chose_target" >
+        </activity>
     </application>
 
 </manifest>
