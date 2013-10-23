@@ -6,5 +6,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_select_target">SelectTarget</string>
     <string name="title_activity_chose_target">ChoseTarget</string>
+    <string name="button_create">New Target</string>
+    <string name="button_select">Select Target</string>
 
 </resources>

@@ -1,9 +1,12 @@
 package com.example.gps_compass;
 
+
 import android.os.Bundle;
 import android.app.Activity;
-import android.util.Log;
+import android.content.Intent;
 import android.view.Menu;
+import android.view.View;
+
 
 public class MainActivity extends Activity {
 
@@ -21,5 +24,24 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+	
+// Sourcecode of button_create
+public void newTarget(View view){
+		
+		Intent intent= new Intent(this, CreateTargetActivity.class);
+		startActivity(intent);
+		
+	}
+
+//Sourcecode of button_select
+public void selectTarget(View view){
+	
+	Intent intent= new Intent(this, ChoseTargetActivity.class);
+	startActivity(intent);
+	
+}
+	
+	
+	
 
 }
