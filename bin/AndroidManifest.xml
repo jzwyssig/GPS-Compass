@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.gps_compass.SelectTarget"
+            android:name="com.example.gps_compass.CreateTarget"
             android:label="@string/title_activity_select_target" >
         </activity>
         <activity
