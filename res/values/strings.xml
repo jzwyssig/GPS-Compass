@@ -8,5 +8,7 @@
     <string name="title_activity_chose_target">ChoseTarget</string>
     <string name="button_create">New Target</string>
     <string name="button_select">Select Target</string>
+    <string name="target_name">Name</string>
+    <string name="set_button">set</string>
 
 </resources>
