@@ -17,13 +17,20 @@
     android:hint="@string/target_name"/>
 
 
-<RadioButton android:id="@+id/radio_current_location"
+<!-- <RadioButton android:id="@+id/radio_current_location"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="@string/radio_current_location"
     
-   />
+   /> -->
+   
+   
 
-
+<CheckBox android:id="@+id/checkbox_use_current_location"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/use_current_location"
+    android:onClick="onCheckBoxClicked"
+    />
 
 </LinearLayout>

@@ -11,5 +11,6 @@
     <string name="target_name">Name</string>
     <string name="set_button">set</string>
     <string name="radio_current_location">use current location</string>
+    <string name="use_current_location">Use current location</string>
 
 </resources>
