@@ -50,6 +50,7 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 	public void SaveLocation(Location location, String LocationName) {
 		SharedPreferences DestLocation = getSharedPreferences(PREFS_NAME, 0);
 		Editor editor = DestLocation.edit();
+		// Save values, use double converted longs
 		editor.putLong(LATITUDE, Double.doubleToLongBits(location.getLatitude()));
 		editor.putLong(LONGITUDE, Double.doubleToLongBits(location.getLongitude()));
 		editor.putString(DEST_NAME, LocationName);
