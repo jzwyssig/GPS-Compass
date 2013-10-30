@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class CreateTargetActivity extends Activity implements LocationListener {
 
@@ -25,11 +24,12 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 		setContentView(R.layout.activity_create_target);
 
 		manager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
-		manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 400, 1, this); // get Location
+		// get location
+		manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 400, 1, this);
 		// RadioButton default set on
 		CheckBox cl = (CheckBox) findViewById(R.id.checkbox_use_current_location); 
-		getSavedLocation();
 		cl.setChecked(true);
+		getSavedLocation();
 	}
 
 	@Override
@@ -114,17 +114,13 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 			
 			SaveLocation(temp.coordinates, temp.name);		
 			getSavedLocation();
-			
-			
-			if (temp.coordinates == null) // Warning
-				Toast.makeText(getBaseContext(), "Location can't be retrieved",
-						Toast.LENGTH_SHORT).show();
+
 		} else { // EXPAND: read in from EditText
 
 		}
 
 		// return to main activity
-		// finish();
+		finish();
 	}
 
 	@Override
