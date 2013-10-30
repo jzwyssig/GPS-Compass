@@ -16,7 +16,6 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 	}
 	
-	//Gian is awesome
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -25,7 +24,7 @@ public class MainActivity extends Activity {
 		return true;
 	}
 	
-// Sourcecode of button_create
+// Source code of button_create
 public void newTarget(View view){
 		
 		Intent intent= new Intent(this, CreateTargetActivity.class);
@@ -33,7 +32,7 @@ public void newTarget(View view){
 		
 	}
 
-//Sourcecode of button_select
+//Source code of button_select
 public void selectTarget(View view){
 	
 	Intent intent= new Intent(this, ChoseTargetActivity.class);

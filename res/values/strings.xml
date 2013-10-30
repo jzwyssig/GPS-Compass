@@ -9,8 +9,8 @@
     <string name="button_create">New Target</string>
     <string name="button_select">Select Target</string>
     <string name="target_name">Name</string>
-    <string name="set_button">set</string>
+    <string name="set_button">Add</string>
     <string name="radio_current_location">use current location</string>
     <string name="use_current_location">Use current location</string>
-
+    <string name="current_dest">Current Destination: </string>
 </resources>

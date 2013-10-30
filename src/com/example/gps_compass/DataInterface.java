@@ -7,6 +7,4 @@ public class DataInterface{
 	
 	public String name;
 	public Location coordinates;
-	
-
 }

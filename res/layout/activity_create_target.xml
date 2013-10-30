@@ -2,35 +2,60 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="vertical" >
 
-    <Button
+    <CheckBox
+        android:id="@+id/checkbox_use_current_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="setTarget"
-        android:text="@string/set_button" />
-    
-<EditText android:id="@+id/set_target_name"
-    android:layout_weight="1"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:hint="@string/target_name"/>
+        android:onClick="onCheckBoxClicked"
+        android:text="@string/use_current_location" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
 
-<!-- <RadioButton android:id="@+id/radio_current_location"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/radio_current_location"
-    
-   /> -->
-   
-   
+        <EditText
+            android:id="@+id/set_target_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/target_name" />
 
-<CheckBox android:id="@+id/checkbox_use_current_location"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/use_current_location"
-    android:onClick="onCheckBoxClicked"
-    />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="setTarget"
+            android:text="@string/set_button" />
+    </LinearLayout>
 
+    <!-- TEST IF GPS WORKS ||| START -->
+       <TextView
+        android:id="@+id/current_dest"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="@string/current_dest"
+        android:background="#024796"
+        android:textColor="#ffffff"
+        android:padding="8dip" /> 
+    <TextView
+        android:id="@+id/getDestinationName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dip" />
+
+    <TextView
+        android:id="@+id/getLatitude"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dip" />
+
+    <TextView
+        android:id="@+id/getLongitude"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dip" />
+ 	<!-- TEST IF GPS WORKS ||| STOP -->
 </LinearLayout>
