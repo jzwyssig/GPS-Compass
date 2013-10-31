@@ -22,11 +22,15 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		// Getting reference to TextView destination
-		SharedPreferences DestLocation = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		TextView TestIfSharedPrefWorks = (TextView) findViewById(R.id.DestName);
-		TestIfSharedPrefWorks.setText("Destination: " + DestLocation.getString(DEST_NAME, ""));
+		refreshData();
+	}
+	
+	// get Data
+	public void refreshData() {
+		SharedPreferences destLocation = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		TextView testIfSharedPrefWorks = (TextView) findViewById(R.id.DestName);
+		testIfSharedPrefWorks.setText("Destination: " + destLocation.getString(DEST_NAME, ""));
+		testIfSharedPrefWorks.invalidate();
 	}
 
 	@Override
@@ -38,9 +42,9 @@ public class MainActivity extends Activity {
 
 	// Source code of button_create
 	public void newTarget(View view) {
-
+		
 		Intent intent = new Intent(this, CreateTargetActivity.class);
-		startActivity(intent);
+		startActivityForResult(intent, 1);			
 	}
 
 	// Source code of button_select
@@ -49,5 +53,16 @@ public class MainActivity extends Activity {
 		Intent intent = new Intent(this, ChoseTargetActivity.class);
 		startActivity(intent);
 	}
+	
+	@Override
+	// Call 
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+     super.onActivityResult(requestCode, resultCode, data);
+     if(resultCode == RESULT_OK){
+        Intent refresh = new Intent(this, MainActivity.class);
+        startActivity(refresh);
+        this.finish();
+     }
+    }
 
 }

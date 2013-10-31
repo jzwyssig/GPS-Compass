@@ -122,6 +122,7 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 		}
 
 		// return to main activity
+		setResult(RESULT_OK, null);
 		finish();
 	}
 
