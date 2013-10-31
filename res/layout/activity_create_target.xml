@@ -6,12 +6,14 @@
 
     <CheckBox
         android:id="@+id/checkbox_use_current_location"
+        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onCheckBoxClicked"
         android:text="@string/use_current_location" />
 
     <LinearLayout
+         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
@@ -36,9 +38,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:textColorHint="#FFFFFF"
         android:hint="@string/current_dest"
         android:background="#024796"
-        android:textColor="#ffffff"
         android:padding="8dip" /> 
     <TextView
         android:id="@+id/getDestinationName"

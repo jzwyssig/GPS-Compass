@@ -7,6 +7,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.View;
 import android.widget.CheckBox;
@@ -39,16 +40,14 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 		return true;
 	}
 
-	
-	// Variables to store values for SharedPreferences
-	public static final String PREFS_NAME = "SavedLocation";
+		// Variables to store values for SharedPreferences
 	public static final String LATITUDE = "latitude";
 	public static final String LONGITUDE = "longitude";
 	public static final String DEST_NAME = "destination_name";
-
+	
 	// Save Destination Name, Latitude and Longitude
 	public void SaveLocation(Location location, String LocationName) {
-		SharedPreferences DestLocation = getSharedPreferences(PREFS_NAME, 0);
+		SharedPreferences DestLocation = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		Editor editor = DestLocation.edit();
 		// Save values, use double converted longs
 		editor.putLong(LATITUDE, Double.doubleToLongBits(location.getLatitude()));
@@ -58,15 +57,18 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 	}
 	
 	// Get saved GPS-Coordinates and location's name
-	public DataInterface getSavedLocation() {
+	public void getSavedLocation() {
+	
 		// Load SharedPreferences
-		SharedPreferences DestLocation = getSharedPreferences(PREFS_NAME, 0);
+		SharedPreferences DestLocation = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		DataInterface tmpObject = new DataInterface();
+	
 		// IMPORTANT! Replace Location object coordinates with valid Location Object
 		tmpObject.coordinates = new Location("GPS_PROVIDER");
-		double latitude = Double.longBitsToDouble(DestLocation.getLong(LATITUDE, 0));
 		
+		double latitude = Double.longBitsToDouble(DestLocation.getLong(LATITUDE, 0));
 		tmpObject.coordinates.setLatitude(latitude);
+		
 		double longitude = Double.longBitsToDouble(DestLocation.getLong(LONGITUDE, 0));
 		tmpObject.coordinates.setLongitude(longitude);
 		
@@ -90,7 +92,7 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 		// Setting Current Destination Name
 		DestinationName.setText("Destination Name: " + tmpObject.name);
 	
-		return tmpObject;
+		//return tmpObject;
 	}
 
 	public void onCheckBoxClicked(View view) {
