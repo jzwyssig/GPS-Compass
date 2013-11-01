@@ -56,7 +56,7 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 		editor.commit();
 	}
 	
-	// Get saved GPS-Coordinates and location's name
+	// TEST METHOD! Get saved GPS-Coordinates and location's name 
 	public void getSavedLocation() {
 	
 		// Load SharedPreferences
@@ -91,8 +91,6 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 		
 		// Setting Current Destination Name
 		DestinationName.setText("Destination Name: " + tmpObject.name);
-	
-		//return tmpObject;
 	}
 
 	public void onCheckBoxClicked(View view) {

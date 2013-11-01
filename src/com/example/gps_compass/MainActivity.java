@@ -1,9 +1,9 @@
 package com.example.gps_compass;
 
-//import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -18,6 +18,25 @@ public class MainActivity extends Activity {
 	public static final String LONGITUDE = "longitude";
 	public static final String DEST_NAME = "destination_name";
 
+	// returns a DataInterface that contains name and location. 
+	public DataInterface getSavedLocation() {
+	
+		// Load SharedPreferences
+		SharedPreferences DestLocation = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		DataInterface tmpObject = new DataInterface();
+	
+		// IMPORTANT! Replace Location object coordinates with valid Location Object
+		tmpObject.coordinates = new Location("GPS_PROVIDER");
+		
+		double latitude = Double.longBitsToDouble(DestLocation.getLong(LATITUDE, 0));
+		tmpObject.coordinates.setLatitude(latitude);
+		
+		double longitude = Double.longBitsToDouble(DestLocation.getLong(LONGITUDE, 0));
+		tmpObject.coordinates.setLongitude(longitude);
+		
+		tmpObject.name = DestLocation.getString(DEST_NAME, "");
+		return tmpObject;
+	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -25,12 +44,11 @@ public class MainActivity extends Activity {
 		refreshData();
 	}
 	
-	// get Data
+	// test method
 	public void refreshData() {
-		SharedPreferences destLocation = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		TextView testIfSharedPrefWorks = (TextView) findViewById(R.id.DestName);
-		testIfSharedPrefWorks.setText("Destination: " + destLocation.getString(DEST_NAME, ""));
-		testIfSharedPrefWorks.invalidate();
+		testIfSharedPrefWorks.setText("Destination: " + getSavedLocation().name);
+		//testIfSharedPrefWorks.invalidate(); // force view to draw
 	}
 
 	@Override
@@ -55,8 +73,7 @@ public class MainActivity extends Activity {
 	}
 	
 	@Override
-	// Call 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
      super.onActivityResult(requestCode, resultCode, data);
      if(resultCode == RESULT_OK){
         Intent refresh = new Intent(this, MainActivity.class);
