@@ -4,33 +4,28 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
         <Button
-            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="fill_parent"
             android:onClick="newTarget"
             android:text="@string/button_create" />
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="selectTarget"
-            android:text="@string/button_select" />
-    </LinearLayout>
 
     <TextView
         android:id="@+id/DestName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:background="#024796"
-        android:textColor="#FFFFFF"
-        android:padding="8dip" />
+        android:padding="8dip"
+        android:textColor="#FFFFFF" />
+
+    <ImageView
+        android:id="@+id/imageViewCompass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="60dp"
+        android:contentDescription="@string/content_desc"
+        android:src="@drawable/compass" />
 
 </LinearLayout>

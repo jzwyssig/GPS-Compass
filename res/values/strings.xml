@@ -13,4 +13,5 @@
     <string name="radio_current_location">use current location</string>
     <string name="use_current_location">Use current location</string>
     <string name="current_dest">Current Destination: </string>
+    <string name="content_desc">GPS-Compass Image</string>
 </resources>

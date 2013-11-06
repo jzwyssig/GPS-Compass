@@ -30,10 +30,6 @@
             android:name="com.example.gps_compass.CreateTargetActivity"
             android:label="@string/title_activity_select_target" >
         </activity>
-        <activity
-            android:name="com.example.gps_compass.ChoseTargetActivity"
-            android:label="@string/title_activity_chose_target" >
-        </activity>
     </application>
 
 </manifest>
