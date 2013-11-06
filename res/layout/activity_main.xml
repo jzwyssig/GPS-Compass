@@ -4,11 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-        <Button
-            android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            android:onClick="newTarget"
-            android:text="@string/button_create" />
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="newTarget"
+        android:text="@string/button_create" />
 
     <TextView
         android:id="@+id/DestName"
@@ -19,13 +19,25 @@
         android:padding="8dip"
         android:textColor="#FFFFFF" />
 
-    <ImageView
-        android:id="@+id/imageViewCompass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="60dp"
-        android:contentDescription="@string/content_desc"
-        android:src="@drawable/compass" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ImageView
+            android:id="@+id/imageViewCompass"
+            android:layout_width="280dp"
+            android:layout_height="280dp"
+            android:layout_centerInParent="true"
+            android:contentDescription="@string/content_desc_compass"
+            android:src="@drawable/compass_plain" />
+
+        <ImageView
+            android:id="@+id/imageViewCompassNeedle"
+            android:layout_width="280dp"
+            android:layout_centerInParent="true"
+            android:layout_height="280dp"
+              android:contentDescription="@string/content_desc_compass_needle"
+            android:src="@drawable/compass_needle" />
+    </RelativeLayout>
 
 </LinearLayout>
