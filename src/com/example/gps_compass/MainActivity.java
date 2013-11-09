@@ -8,6 +8,8 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -18,13 +20,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-public class MainActivity extends Activity implements SensorEventListener {
+public class MainActivity extends Activity implements SensorEventListener, LocationListener{
 	
 	// Variables to store values for SharedPreferences
 	public static final String LATITUDE = "latitude";
 	public static final String LONGITUDE = "longitude";
 	public static final String DEST_NAME = "destination_name";
-
+	
+	LocationManager locationManager;
+	private float targetAngle = 0;
+	private float targetDistance = 0;
+	DataInterface target=null;
+	
+	
 	// returns a DataInterface that contains name and location. 
 	public DataInterface getSavedLocation() {
 	
@@ -58,6 +66,15 @@ public class MainActivity extends Activity implements SensorEventListener {
 
         // initialize your android device sensor capabilities
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        locationManager =  (LocationManager) getSystemService(LOCATION_SERVICE);
+        
+        
+        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+        	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 1 ,this);
+        else; //Warning PopUp
+        
+        
+        
 	}
 	
 	// test method
@@ -78,7 +95,10 @@ public class MainActivity extends Activity implements SensorEventListener {
 	public void newTarget(View view) {
 		
 		Intent intent = new Intent(this, CreateTargetActivity.class);
-		startActivityForResult(intent, 1);			
+		startActivityForResult(intent, 1);
+		
+		target = getSavedLocation();//load created target
+		
 	}
 
 	@Override
@@ -141,6 +161,27 @@ public class MainActivity extends Activity implements SensorEventListener {
     
 	@Override
 	public void onAccuracyChanged(Sensor arg0, int arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void onLocationChanged(Location arg0) {
+		targetDistance = arg0.distanceTo(target.coordinates);
+		targetAngle =  arg0.bearingTo(target.coordinates);
+		
+	}
+	@Override
+	public void onProviderDisabled(String provider) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void onProviderEnabled(String provider) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
 		// TODO Auto-generated method stub
 		
 	}
