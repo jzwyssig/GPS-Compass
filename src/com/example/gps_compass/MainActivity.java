@@ -20,18 +20,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-public class MainActivity extends Activity implements SensorEventListener, LocationListener{
+public class MainActivity extends Activity implements SensorEventListener, LocationListener {
 	
 	// Variables to store values for SharedPreferences
 	public static final String LATITUDE = "latitude";
 	public static final String LONGITUDE = "longitude";
 	public static final String DEST_NAME = "destination_name";
 	
-	LocationManager locationManager;
+	// define the display assembly compass picture
+    private ImageView image_compass;
+    private ImageView image_needle;
+
+    // record the compass picture angle turned
+    private float currentDegree_compass = 0;
+    private float currentDegree_needle = 0;
+
+    // device sensor manager
+    private SensorManager mSensorManager;
+	private LocationManager locationManager;
 	private float targetAngle = 0;
 	private float targetDistance = 0;
-	DataInterface target=null;
-	
 	
 	// returns a DataInterface that contains name and location. 
 	public DataInterface getSavedLocation() {
@@ -52,17 +60,15 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
 		tmpObject.name = DestLocation.getString(DEST_NAME, "");
 		return tmpObject;
 	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		// TEST METHODE
-		refreshData();
-		
-		
 		// compass image 
-        image = (ImageView) findViewById(R.id.imageViewCompass);
+        image_compass = (ImageView) findViewById(R.id.imageViewCompass);
+        image_needle = (ImageView) findViewById(R.id.imageViewCompassNeedle);
 
         // initialize your android device sensor capabilities
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -70,17 +76,16 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         
         
         if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
-        	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 1 ,this);
+        	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 400, 1 ,this);
         else; //Warning PopUp
-        
-        
-        
 	}
 	
 	// test method
-	public void refreshData() {
-		TextView testIfSharedPrefWorks = (TextView) findViewById(R.id.DestName);
-		testIfSharedPrefWorks.setText("Destination: " + getSavedLocation().name);
+	public void refreshData(float deg) {
+		TextView test = (TextView) findViewById(R.id.DestName);
+		test.setText("TargetAngle: " + targetAngle + "  CurNeedle: " 
+		+ currentDegree_needle + "  CurCompass: " + currentDegree_compass + 
+		"  degCom: " + deg + "  Distance: " + targetDistance);
 		//testIfSharedPrefWorks.invalidate(); // force view to draw
 	}
 
@@ -95,10 +100,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
 	public void newTarget(View view) {
 		
 		Intent intent = new Intent(this, CreateTargetActivity.class);
-		startActivityForResult(intent, 1);
-		
-		target = getSavedLocation();//load created target
-		
+		startActivityForResult(intent, 1);	
 	}
 
 	@Override
@@ -110,15 +112,6 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         this.finish();
      }
     }
-	
-	// define the display assembly compass picture
-    private ImageView image;
-
-    // record the compass picture angle turned
-    private float currentDegree = 0;
-
-    // device sensor manager
-    private SensorManager mSensorManager;
     
     @Override
     protected void onResume() {
@@ -136,15 +129,11 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         mSensorManager.unregisterListener(this);
     }
 
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-
-        // get the angle around the z-axis rotated (azimuth)
-        float degree = Math.round(event.values.clone()[0]);
-
-        // create a rotation animation (reverse turn degree degrees)
+    public void rotate_compass(float degree) {
+    	
+        // create a rotation animation (reverse turn degree <degrees>)
         RotateAnimation ra = new RotateAnimation(
-                currentDegree, -degree,
+                currentDegree_compass, -degree,
                 Animation.RELATIVE_TO_SELF, 0.5f, 
                 Animation.RELATIVE_TO_SELF, 0.5f);
 
@@ -155,8 +144,35 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         ra.setFillAfter(true);
 
         // Start the animation
-        image.startAnimation(ra);
-        currentDegree = -degree;
+        image_compass.startAnimation(ra);
+        currentDegree_compass = -degree;  	
+    }
+    public void rotate_needle(float degree) {
+    	
+        // create a rotation animation (reverse turn degree <degrees>)
+        RotateAnimation ra = new RotateAnimation(
+                currentDegree_needle, -degree,
+                Animation.RELATIVE_TO_SELF, 0.5f, 
+                Animation.RELATIVE_TO_SELF, 0.5f);
+
+        // how long the animation will take place
+        ra.setDuration(210);
+
+        // set the animation after the end of the reservation status
+        ra.setFillAfter(true);
+
+        // Start the animation
+        image_needle.startAnimation(ra);
+        currentDegree_needle = -degree;  	
+    }
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+
+        // get the angle around the z-axis rotated (azimuth)
+        float degree_compass = Math.round(event.values.clone()[0]);
+        rotate_compass(degree_compass);
+        rotate_needle((degree_compass + targetAngle) % 360);
+        refreshData(degree_compass);
     }
     
 	@Override
@@ -166,10 +182,12 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
 	}
 	@Override
 	public void onLocationChanged(Location arg0) {
+		DataInterface target = getSavedLocation();
 		targetDistance = arg0.distanceTo(target.coordinates);
 		targetAngle =  arg0.bearingTo(target.coordinates);
-		
 	}
+	
+	
 	@Override
 	public void onProviderDisabled(String provider) {
 		// TODO Auto-generated method stub
