@@ -10,18 +10,9 @@
         android:onClick="newTarget"
         android:text="@string/button_create" />
 
-    <TextView
-        android:id="@+id/DestName"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:background="#024796"
-        android:padding="8dip"
-        android:textColor="#FFFFFF" />
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="wrap_content" >
 
         <ImageView
             android:id="@+id/imageViewCompass"
@@ -29,15 +20,25 @@
             android:layout_height="280dp"
             android:layout_centerInParent="true"
             android:contentDescription="@string/content_desc_compass"
-            android:src="@drawable/compass_plain" />
+            android:src="@drawable/compass_background" />
 
         <ImageView
             android:id="@+id/imageViewCompassNeedle"
             android:layout_width="280dp"
-            android:layout_centerInParent="true"
             android:layout_height="280dp"
+            android:layout_centerInParent="true"
             android:contentDescription="@string/content_desc_compass_needle"
             android:src="@drawable/compass_needle" />
+
+        <TextView
+            android:id="@+id/distance"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="25dp"
+            android:background="#024796"
+            android:padding="8dip"
+            android:textColor="#FFFFFF" />
     </RelativeLayout>
 
 </LinearLayout>

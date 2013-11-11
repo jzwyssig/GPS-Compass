@@ -12,7 +12,6 @@
     <string name="set_button">Add</string>
     <string name="radio_current_location">use current location</string>
     <string name="use_current_location">Use current location</string>
-    <string name="current_dest">Current destination: </string>
     <string name="content_desc_compass">compass Image</string>
     <string name="content_desc_compass_needle">compass needle</string>
 

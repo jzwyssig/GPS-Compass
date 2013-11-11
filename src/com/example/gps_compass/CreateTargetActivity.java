@@ -18,6 +18,15 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 
 	boolean checked = true;
 	LocationManager manager;
+	
+	// ListView
+	//private ListView list;
+	//private ArrayAdapter<String> listAdapter;
+
+	// Variables to store values for SharedPreferences
+	public static final String LATITUDE = "latitude";
+	public static final String LONGITUDE = "longitude";
+	public static final String DEST_NAME = "destination_name";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +35,10 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 
 		manager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
 		// get location
-		manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 400, 1, this);
+		manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 400, 1,
+				this);
 		// RadioButton default set on
-		CheckBox cl = (CheckBox) findViewById(R.id.checkbox_use_current_location); 
+		CheckBox cl = (CheckBox) findViewById(R.id.checkbox_use_current_location);
 		cl.setChecked(true);
 		getSavedLocation();
 	}
@@ -40,11 +50,6 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 		return true;
 	}
 
-		// Variables to store values for SharedPreferences
-	public static final String LATITUDE = "latitude";
-	public static final String LONGITUDE = "longitude";
-	public static final String DEST_NAME = "destination_name";
-	
 	// Save Destination Name, Latitude and Longitude
 	public void SaveLocation(Location location, String LocationName) {
 		SharedPreferences DestLocation = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -55,42 +60,32 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 		editor.putString(DEST_NAME, LocationName);
 		editor.commit();
 	}
-	
-	// TEST METHOD! Get saved GPS-Coordinates and location's name 
+
+	// TEST METHOD! Get saved GPS-Coordinates and location's name
 	public void getSavedLocation() {
-	
+
 		// Load SharedPreferences
 		SharedPreferences DestLocation = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		DataInterface tmpObject = new DataInterface();
-	
+
 		// IMPORTANT! Replace Location object coordinates with valid Location Object
 		tmpObject.coordinates = new Location("GPS_PROVIDER");
-		
-		double latitude = Double.longBitsToDouble(DestLocation.getLong(LATITUDE, 0));
+
+		double latitude = Double.longBitsToDouble(DestLocation.getLong(
+				LATITUDE, 0));
 		tmpObject.coordinates.setLatitude(latitude);
-		
-		double longitude = Double.longBitsToDouble(DestLocation.getLong(LONGITUDE, 0));
+
+		double longitude = Double.longBitsToDouble(DestLocation.getLong(
+				LONGITUDE, 0));
 		tmpObject.coordinates.setLongitude(longitude);
-		
+
 		tmpObject.name = DestLocation.getString(DEST_NAME, "");
 
-		// Getting reference to TextView Longitude
-		TextView Longitude = (TextView) findViewById(R.id.getLongitude);
-
-		// Getting reference to TextView Latitude
-		TextView Latitude = (TextView) findViewById(R.id.getLatitude);
-		
 		// Getting reference to TextView Latitude
 		TextView DestinationName = (TextView) findViewById(R.id.getDestinationName);
 
-		// Setting Current Longitude
-		Longitude.setText("Longitude: " + longitude);
-
-		// Setting Current Latitude
-		Latitude.setText("Latitude: " + latitude);
-		
 		// Setting Current Destination Name
-		DestinationName.setText("Destination Name: " + tmpObject.name);
+		DestinationName.setText("Current destination: " + tmpObject.name);
 	}
 
 	public void onCheckBoxClicked(View view) {
@@ -101,18 +96,19 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 	// Source code from button_set
 	public void setTarget(View view) {
 
-		DataInterface temp = new DataInterface(); // contains a name and GPS-coordinates
+		DataInterface temp = new DataInterface(); // contains a name and
+													// GPS-coordinates
 		// read out the target's name
-		EditText editText = (EditText) findViewById(R.id.set_target_name); 
-		
+		EditText editText = (EditText) findViewById(R.id.set_target_name);
+
 		temp.name = editText.getText().toString();
 
 		if (checked) { // Target: current location
 
 			// Check: GPS enabled!
 			temp.coordinates = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-			
-			SaveLocation(temp.coordinates, temp.name);		
+
+			SaveLocation(temp.coordinates, temp.name);
 			getSavedLocation();
 
 		} else { // EXPAND: read in from EditText

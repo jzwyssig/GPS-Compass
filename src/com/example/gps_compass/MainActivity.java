@@ -30,6 +30,10 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
 	// define the display assembly compass picture
     private ImageView image_compass;
     private ImageView image_needle;
+    
+    //define textView
+    
+    private TextView distanceView;
 
     // record the compass picture angle turned
     private float currentDegree_compass = 0;
@@ -48,7 +52,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
 		SharedPreferences DestLocation = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		DataInterface tmpObject = new DataInterface();
 	
-		// IMPORTANT! Replace Location object coordinates with valid Location Object
+		// IMPORTANT! Replace location object coordinates with valid location object
 		tmpObject.coordinates = new Location("GPS_PROVIDER");
 		
 		double latitude = Double.longBitsToDouble(DestLocation.getLong(LATITUDE, 0));
@@ -74,21 +78,16 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         locationManager =  (LocationManager) getSystemService(LOCATION_SERVICE);
         
+        //initialize TextView
+        distanceView = (TextView) findViewById(R.id.distance);
+        distanceView.setText("Initializing GPS... ");
+        
         
         if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
         	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 400, 1 ,this);
         else; //Warning PopUp
 	}
 	
-	// test method
-	public void refreshData(float deg) {
-		TextView test = (TextView) findViewById(R.id.DestName);
-		test.setText("TargetAngle: " + targetAngle + "  CurNeedle: " 
-		+ currentDegree_needle + "  CurCompass: " + currentDegree_compass + 
-		"  degCom: " + deg + "  Distance: " + targetDistance);
-		//testIfSharedPrefWorks.invalidate(); // force view to draw
-	}
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -113,7 +112,8 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
      }
     }
     
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     protected void onResume() {
         super.onResume();  
         // for the system's orientation sensor registered listeners
@@ -147,6 +147,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         image_compass.startAnimation(ra);
         currentDegree_compass = -degree;  	
     }
+    
     public void rotate_needle(float degree) {
     	
         // create a rotation animation (reverse turn degree <degrees>)
@@ -171,8 +172,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         // get the angle around the z-axis rotated (azimuth)
         float degree_compass = Math.round(event.values.clone()[0]);
         rotate_compass(degree_compass);
-        rotate_needle((degree_compass + targetAngle) % 360);
-        refreshData(degree_compass);
+        rotate_needle((degree_compass - targetAngle) % 360);
     }
     
 	@Override
@@ -184,7 +184,15 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
 	public void onLocationChanged(Location arg0) {
 		DataInterface target = getSavedLocation();
 		targetDistance = arg0.distanceTo(target.coordinates);
-		targetAngle =  arg0.bearingTo(target.coordinates);
+		targetAngle =  (360 + arg0.bearingTo(target.coordinates)) % 360;
+		
+		
+		if(targetDistance < 1000){
+		distanceView.setText("Distance to " + getSavedLocation().name 
+				+ ": " + (int)targetDistance + "\u2009" + "m");
+		}
+		else distanceView.setText("Distance to " + getSavedLocation().name 
+				+ ": " + (float)Math.round(targetDistance/10) / 100.0f + "\u2009" + "km");
 	}
 	
 	

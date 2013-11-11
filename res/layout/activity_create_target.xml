@@ -34,30 +34,27 @@
 
     <!-- TEST IF GPS WORKS ||| START -->
        <TextView
-        android:id="@+id/current_dest"
+        android:id="@+id/getDestinationName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:textColorHint="#FFFFFF"
-        android:hint="@string/current_dest"
         android:background="#024796"
-        android:padding="8dip" /> 
-    <TextView
-        android:id="@+id/getDestinationName"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:padding="8dip" />
-
-    <TextView
-        android:id="@+id/getLatitude"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:padding="8dip" />
-
-    <TextView
-        android:id="@+id/getLongitude"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
         android:padding="8dip" />
  	<!-- TEST IF GPS WORKS ||| STOP -->
+ 	
+ 	
+ 	  <ListView
+        android:id="@+id/ListView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <!-- android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/transparent"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="#CCCCCC"
+        android:dividerHeight="1dp"
+        android:paddingLeft="2dp" --> 
+    </ListView>
+ 	
 </LinearLayout>
