@@ -209,8 +209,7 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 	        // Set an EditText view to get user input 
 	        final EditText input = new EditText(CreateTargetActivity.this);
 	        alertDialog.setView(input);
-	        input.setText(locationNames.get(position));
-	  
+	        //input.setText(locationNames.get(position));
 	        //input.setSelectAllOnFocus(true);
 
 	        		 
