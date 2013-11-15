@@ -6,16 +6,16 @@
 
     <CheckBox
         android:id="@+id/checkbox_use_current_location"
-        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:onClick="onCheckBoxClicked"
         android:text="@string/use_current_location" />
 
     <LinearLayout
-         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal" >
 
         <EditText
@@ -23,38 +23,29 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="@string/target_name" />
+            android:hint="@string/target_name"
+            android:maxLength="20" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="setTarget"
+            android:onClick="addLocation"
             android:text="@string/set_button" />
     </LinearLayout>
 
-    <!-- TEST IF GPS WORKS ||| START -->
-       <TextView
-        android:id="@+id/getDestinationName"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textColorHint="#FFFFFF"
-        android:background="#024796"
-        android:padding="8dip" />
- 	<!-- TEST IF GPS WORKS ||| STOP -->
- 	
- 	
- 	  <ListView
+    <ListView
         android:id="@+id/ListView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-        <!-- android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+        <!--
+        android:layout_marginBottom="10dp"
         android:layout_marginTop="5dp"
         android:background="@android:color/transparent"
         android:cacheColorHint="@android:color/transparent"
         android:divider="#CCCCCC"
         android:dividerHeight="1dp"
-        android:paddingLeft="2dp" --> 
+        android:paddingLeft="2dp"
+        -->
     </ListView>
- 	
+
 </LinearLayout>

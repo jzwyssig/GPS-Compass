@@ -22,29 +22,30 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity implements SensorEventListener, LocationListener {
 	
+    // device sensor manager
+    private SensorManager mSensorManager;
+	private LocationManager locationManager;
+	
 	// Variables to store values for SharedPreferences
 	public static final String LATITUDE = "latitude";
 	public static final String LONGITUDE = "longitude";
 	public static final String DEST_NAME = "destination_name";
-	
+	    
+    // angle, distance between destination and current location
+	private float targetAngle = 0;
+	private float targetDistance = 0;
+
+    // record the compass picture angle turned
+    private float currentDegree_compass = 0;
+    private float currentDegree_needle = 0;
+    
 	// define the display assembly compass picture
     private ImageView image_compass;
     private ImageView image_needle;
     
     //define textView
-    
     private TextView distanceView;
 
-    // record the compass picture angle turned
-    private float currentDegree_compass = 0;
-    private float currentDegree_needle = 0;
-
-    // device sensor manager
-    private SensorManager mSensorManager;
-	private LocationManager locationManager;
-	private float targetAngle = 0;
-	private float targetDistance = 0;
-	
 	// returns a DataInterface that contains name and location. 
 	public DataInterface getSavedLocation() {
 	
@@ -172,6 +173,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         // get the angle around the z-axis rotated (azimuth)
         float degree_compass = Math.round(event.values.clone()[0]);
         rotate_compass(degree_compass);
+        // degree_compass: counterclockwise, targetAngle: clockwise 
         rotate_needle((degree_compass - targetAngle) % 360);
     }
     
@@ -182,11 +184,14 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
 	}
 	@Override
 	public void onLocationChanged(Location arg0) {
+		// load stored DataInterface
 		DataInterface target = getSavedLocation();
+		// get distance and angle from current location to destination
 		targetDistance = arg0.distanceTo(target.coordinates);
+		// note: angle is element of [-180°, 180°]
 		targetAngle =  (360 + arg0.bearingTo(target.coordinates)) % 360;
 		
-		
+		// set output to meters for a distance < 1000m, otherwise rounded kilometers.
 		if(targetDistance < 1000){
 		distanceView.setText("Distance to " + getSavedLocation().name 
 				+ ": " + (int)targetDistance + "\u2009" + "m");
