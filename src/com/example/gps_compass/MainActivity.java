@@ -54,15 +54,15 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
 		DataInterface tmpObject = new DataInterface();
 	
 		// IMPORTANT! Replace location object coordinates with valid location object
-		tmpObject.coordinates = new Location("GPS_PROVIDER");
+		tmpObject.setCoordinates(new Location("GPS_PROVIDER"));
 		
 		double latitude = Double.longBitsToDouble(DestLocation.getLong(LATITUDE, 0));
-		tmpObject.coordinates.setLatitude(latitude);
+		tmpObject.setLatitude(latitude);
 		
 		double longitude = Double.longBitsToDouble(DestLocation.getLong(LONGITUDE, 0));
-		tmpObject.coordinates.setLongitude(longitude);
+		tmpObject.setLongitude(longitude);
 		
-		tmpObject.name = DestLocation.getString(DEST_NAME, "");
+		tmpObject.setName(DestLocation.getString(DEST_NAME, ""));
 		return tmpObject;
 	}
 	
@@ -187,16 +187,16 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
 		// load stored DataInterface
 		DataInterface target = getSavedLocation();
 		// get distance and angle from current location to destination
-		targetDistance = arg0.distanceTo(target.coordinates);
+		targetDistance = arg0.distanceTo(target.getCoordinates());
 		// note: angle is element of [-180°, 180°]
-		targetAngle =  (360 + arg0.bearingTo(target.coordinates)) % 360;
+		targetAngle =  (360 + arg0.bearingTo(target.getCoordinates())) % 360;
 		
 		// set output to meters for a distance < 1000m, otherwise rounded kilometers.
 		if(targetDistance < 1000){
-		distanceView.setText("Distance to " + getSavedLocation().name 
+		distanceView.setText("Distance to " + getSavedLocation().getName() 
 				+ ": " + (int)targetDistance + "\u2009" + "m");
 		}
-		else distanceView.setText("Distance to " + getSavedLocation().name 
+		else distanceView.setText("Distance to " + getSavedLocation().getName()
 				+ ": " + (float)Math.round(targetDistance/10) / 100.0f + "\u2009" + "km");
 	}
 	

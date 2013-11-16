@@ -89,15 +89,15 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 		DataInterface tmpObject = new DataInterface();
 
 		// IMPORTANT! Replace Location object coordinates with valid Location Object
-		tmpObject.coordinates = new Location("GPS_PROVIDER");
+		tmpObject.setCoordinates(new Location("GPS_PROVIDER"));
 
 		double latitude = Double.longBitsToDouble(DestLocation.getLong(LATITUDE, 0));
-		tmpObject.coordinates.setLatitude(latitude);
+		tmpObject.setLatitude(latitude);
 
 		double longitude = Double.longBitsToDouble(DestLocation.getLong(LONGITUDE, 0));
-		tmpObject.coordinates.setLongitude(longitude);
+		tmpObject.setLongitude(longitude);
 
-		tmpObject.name = DestLocation.getString(DEST_NAME, "");
+		tmpObject.setName( DestLocation.getString(DEST_NAME, ""));
 	}
 	// **********************************************************************************************************
 	
@@ -114,14 +114,14 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 		// read out the target's name
 		EditText editText = (EditText) findViewById(R.id.set_target_name);
 		
-		temp.name = editText.getText().toString();
+		temp.setName(editText.getText().toString());
 
 		if (checked) { // Target: current location
 
 			// Check: GPS enabled!
-			temp.coordinates = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+			temp.setCoordinates( manager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
 
-			SaveLocation(temp.coordinates, temp.name);
+			SaveLocation(temp.getCoordinates(), temp.getName());
 
 		} else { // EXPAND: read in from EditText
 		}
