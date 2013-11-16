@@ -14,6 +14,14 @@ public class DataInterface {
 	//constructors
 	public DataInterface(){
 	}
+	public DataInterface(int id, String name, double longitude, double latitude){
+		this.id = id;
+		this.name = name;
+		this.longitude = longitude;
+		this.latitude = latitude;
+		this.coordinates.setLatitude(latitude);
+		this.coordinates.setLongitude(longitude);
+	}
 	
 	//setters
 	public void setCoordinates(Location coord){
@@ -56,5 +64,8 @@ public class DataInterface {
 		return this.coordinates;
 	}
 	
+	public int getId(){
+		return this.id;
+	}
 	
 }
