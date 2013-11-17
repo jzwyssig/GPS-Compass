@@ -126,6 +126,13 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 		} else { // EXPAND: read in from EditText
 		}
 		
+		
+		//store the destination in the DataBase
+		DatabaseHandler handler = new DatabaseHandler(this);
+		handler.addDestination(temp);
+		//temp=handler.getDestination(0);
+		
+		
 		// add location name to ArrayList
 		locationNames.add(0, editText.getText().toString());
 		

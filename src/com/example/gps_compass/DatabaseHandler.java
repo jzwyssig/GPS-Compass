@@ -32,11 +32,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	//Creating tables
 	public void onCreate(SQLiteDatabase db){
 		String CREATE_DESTINATION_TABLE = 
-			"CREATE TABLE"+TABLE_DESTINATION+"("+KEY_ID+"INTEGER PRIMARY KEY,"+KEY_NAME+"TEXT,"+KEY_LONGITUDE+"TEXT"+KEY_LATITUDE+"TEXT"+")";
-		db.execSQL(CREATE_DESTINATION_TABLE);
-			
+			"CREATE TABLE " 
+		+ TABLE_DESTINATION
+		+ "(" 
+			+ KEY_ID + "INTEGER PRIMARY KEY," 
+			+ KEY_NAME + " TEXT," 
+			+ KEY_LONGITUDE + " TEXT," 
+			+ KEY_LATITUDE+ " TEXT" 
+		+")";
 		
+		db.execSQL(CREATE_DESTINATION_TABLE);
 	}
+	
 	//Upgrading database
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
 		//drop older version if existed
@@ -54,8 +61,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		
 		ContentValues values = new ContentValues();
 		values.put(KEY_NAME,dest.getName());
-		values.put(KEY_LATITUDE, dest.getLatitude());
-		values.put(KEY_LONGITUDE, dest.getLongitude());
+		values.put(KEY_LONGITUDE, dest.getLongitude()+"");
+		values.put(KEY_LATITUDE, dest.getLatitude()+"");
+		
 		
 		//Inserting Row
 		db.insert(TABLE_DESTINATION, null, values);
@@ -71,7 +79,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		if (cursor != null)
 			cursor.moveToFirst();
 		
-		DataInterface dest = new DataInterface(Integer.parseInt(cursor.getString(0)), cursor.getString(1), Double.parseDouble(cursor.getString(2)), Double.parseDouble(cursor.getString(3)));
+		DataInterface dest = new DataInterface(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getDouble(2), cursor.getDouble(3));
 		return dest;
 	}
 	
