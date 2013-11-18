@@ -5,22 +5,22 @@ import android.location.Location;
 
 public class DataInterface {
 	
-	int id;
+	long id;
 	private String name;
-	private Location coordinates;
+	private Location coordinates = new Location("GPS_PROVIDER"); 
 	private double longitude;
 	private double latitude;
 	
 	//constructors
 	public DataInterface(){
 	}
-	public DataInterface(int id, String name, double longitude, double latitude){
+	public DataInterface(long id, String name, double longitude, double latitude){
 		this.id = id;
 		this.name = name;
 		this.longitude = longitude;
 		this.latitude = latitude;
-		this.coordinates.setLatitude(latitude);
 		this.coordinates.setLongitude(longitude);
+		this.coordinates.setLatitude(latitude);
 	}
 	
 	//setters
@@ -43,7 +43,7 @@ public class DataInterface {
 		this.name = name;
 	}
 	
-	public void setId(int id){
+	public void setId(long id){
 		this.id = id;
 	}
 	
@@ -64,7 +64,7 @@ public class DataInterface {
 		return this.coordinates;
 	}
 	
-	public int getId(){
+	public long getId(){
 		return this.id;
 	}
 	

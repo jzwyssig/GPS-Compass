@@ -26,10 +26,8 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     private SensorManager mSensorManager;
 	private LocationManager locationManager;
 	
-	// Variables to store values for SharedPreferences
-	public static final String LATITUDE = "latitude";
-	public static final String LONGITUDE = "longitude";
-	public static final String DEST_NAME = "destination_name";
+	// Store id (SharedPreferences)
+	public static final String ID = "id";
 	    
     // angle, distance between destination and current location
 	private float targetAngle = 0;
@@ -46,24 +44,25 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     //define textView
     private TextView distanceView;
 
-	// returns a DataInterface that contains name and location. 
+	// returns the id of the current location 
 	public DataInterface getSavedLocation() {
-	
-		// Load SharedPreferences
-		SharedPreferences DestLocation = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		DataInterface tmpObject = new DataInterface();
-	
-		// IMPORTANT! Replace location object coordinates with valid location object
-		tmpObject.setCoordinates(new Location("GPS_PROVIDER"));
+			
+		// set DatabaseHandler and get saved ID from SharedPreferences
+		DatabaseHandler handler = new DatabaseHandler(this);
+		SharedPreferences currentLocation = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		long id = currentLocation.getLong(ID, 0);
+			
+		// create tmpDataInterface, contains current location and its name
+		DataInterface tmpDataInterface = new DataInterface();
+		tmpDataInterface.setId(id);
+		//tmpDataInterface.setName("");
+		//tmpDataInterface.setCoordinates(new Location("GPS_PROVIDER"));
 		
-		double latitude = Double.longBitsToDouble(DestLocation.getLong(LATITUDE, 0));
-		tmpObject.setLatitude(latitude);
-		
-		double longitude = Double.longBitsToDouble(DestLocation.getLong(LONGITUDE, 0));
-		tmpObject.setLongitude(longitude);
-		
-		tmpObject.setName(DestLocation.getString(DEST_NAME, ""));
-		return tmpObject;
+		//if (id != 0){
+			tmpDataInterface.setName(handler.getDestination(id).getName());
+			tmpDataInterface.setCoordinates(handler.getDestination(id).getCoordinates());
+		//}
+		return tmpDataInterface;
 	}
 	
 	@Override
@@ -180,23 +179,26 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
 	@Override
 	public void onAccuracyChanged(Sensor arg0, int arg1) {
 		// TODO Auto-generated method stub
-		
+		 
 	}
 	@Override
 	public void onLocationChanged(Location arg0) {
+		
 		// load stored DataInterface
 		DataInterface target = getSavedLocation();
+		
 		// get distance and angle from current location to destination
 		targetDistance = arg0.distanceTo(target.getCoordinates());
+		
 		// note: angle is element of [-180°, 180°]
 		targetAngle =  (360 + arg0.bearingTo(target.getCoordinates())) % 360;
 		
 		// set output to meters for a distance < 1000m, otherwise rounded kilometers.
 		if(targetDistance < 1000){
-		distanceView.setText("Distance to " + getSavedLocation().getName() 
+		distanceView.setText("Distance to " + target.getName() 
 				+ ": " + (int)targetDistance + "\u2009" + "m");
 		}
-		else distanceView.setText("Distance to " + getSavedLocation().getName()
+		else distanceView.setText("Distance to " + target.getName()
 				+ ": " + (float)Math.round(targetDistance/10) / 100.0f + "\u2009" + "km");
 	}
 	

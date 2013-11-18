@@ -11,14 +11,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 	//Database version
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 10;
 	//Database name
 	private static final String DATABASE_NAME = "destinationManager";
 	//Destination table name
 	private static final String TABLE_DESTINATION = "Destinations";
 	
 	//Destination table columns names
-	private static final String KEY_ID = "id";
+	private static final String KEY_ID = "_id";
 	private static final String KEY_NAME = "name";
 	private static final String KEY_LONGITUDE = "Longitude";
 	private static final String KEY_LATITUDE = "Latitude";
@@ -35,7 +35,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 			"CREATE TABLE " 
 		+ TABLE_DESTINATION
 		+ "(" 
-			+ KEY_ID + "INTEGER PRIMARY KEY," 
+			+ KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," 
 			+ KEY_NAME + " TEXT," 
 			+ KEY_LONGITUDE + " TEXT," 
 			+ KEY_LATITUDE+ " TEXT" 
@@ -56,22 +56,24 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	// GETTER- AND SETTER-METHODS
 	
 	//Adding new Destination
-	public void addDestination(DataInterface dest){
+	public long addDestination(DataInterface dest){
 		SQLiteDatabase db = this.getWritableDatabase();
 		
 		ContentValues values = new ContentValues();
-		values.put(KEY_NAME,dest.getName());
+		// ??? "" ??
+		values.put(KEY_NAME, dest.getName()+"");//<-- "" war nicht da
 		values.put(KEY_LONGITUDE, dest.getLongitude()+"");
 		values.put(KEY_LATITUDE, dest.getLatitude()+"");
 		
 		
-		//Inserting Row
-		db.insert(TABLE_DESTINATION, null, values);
+		// Inserting Row
+		long temp = db.insert(TABLE_DESTINATION, null, values);
 		db.close();//close database connection
+		return temp;
 	}
 	
 	//Getting single Destination
-	public DataInterface getDestination(int id){
+	public DataInterface getDestination(long id){
 		SQLiteDatabase db = this.getReadableDatabase();
 		
 		Cursor cursor = db.query(TABLE_DESTINATION, new String[]{ KEY_ID,  KEY_NAME,KEY_LONGITUDE, KEY_LATITUDE },KEY_ID + "=?", new String[]{ String.valueOf(id)}, null, null, null, null);
@@ -79,7 +81,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		if (cursor != null)
 			cursor.moveToFirst();
 		
-		DataInterface dest = new DataInterface(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getDouble(2), cursor.getDouble(3));
+		DataInterface dest = new DataInterface(cursor.getLong(cursor.getColumnIndex(KEY_ID)), cursor.getString(cursor.getColumnIndex(KEY_NAME)), cursor.getDouble(cursor.getColumnIndex(KEY_LONGITUDE)), cursor.getDouble(cursor.getColumnIndex(KEY_LATITUDE)));
 		return dest;
 	}
 	

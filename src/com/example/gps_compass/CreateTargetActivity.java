@@ -38,10 +38,8 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 	// ArrayList to store location names
 	private ArrayList<String> locationNames = new ArrayList<String>();
 	
-	// Variables to store values for SharedPreferences
-	public static final String LATITUDE = "latitude";
-	public static final String LONGITUDE = "longitude";
-	public static final String DEST_NAME = "destination_name";
+	// Store id (SharedPreferences)
+	public static final String ID = "id";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +52,6 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 		// RadioButton default set on
 		CheckBox cl = (CheckBox) findViewById(R.id.checkbox_use_current_location);
 		cl.setChecked(true);
-		getSavedLocation();
 		
 		// load locationList and set the ArrayAdapter with custom Layout listview_items.xml
 		locationList = (ListView) findViewById(R.id.ListView);
@@ -69,38 +66,13 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 		return true;
 	}
 
-	// Save Destination Name, Latitude and Longitude
-	public void SaveLocation(Location location, String LocationName) {
-		SharedPreferences DestLocation = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		Editor editor = DestLocation.edit();
-		// Save values, use double converted longs
-		editor.putLong(LATITUDE, Double.doubleToLongBits(location.getLatitude()));
-		editor.putLong(LONGITUDE, Double.doubleToLongBits(location.getLongitude()));
-		editor.putString(DEST_NAME, LocationName);
-		editor.commit();
+	// set id for current location
+	public void setCurrID(long id) {
+		SharedPreferences currentLocation = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		Editor editor = currentLocation.edit();
+		editor.putLong(ID, id).commit();
 	}
 
-	// **********************************************************************************************************
-	// TEST METHOD! Get saved GPS-Coordinates and location's name
-	public void getSavedLocation() {
-
-		// Load SharedPreferences
-		SharedPreferences DestLocation = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		DataInterface tmpObject = new DataInterface();
-
-		// IMPORTANT! Replace Location object coordinates with valid Location Object
-		tmpObject.setCoordinates(new Location("GPS_PROVIDER"));
-
-		double latitude = Double.longBitsToDouble(DestLocation.getLong(LATITUDE, 0));
-		tmpObject.setLatitude(latitude);
-
-		double longitude = Double.longBitsToDouble(DestLocation.getLong(LONGITUDE, 0));
-		tmpObject.setLongitude(longitude);
-
-		tmpObject.setName( DestLocation.getString(DEST_NAME, ""));
-	}
-	// **********************************************************************************************************
-	
 	public void onCheckBoxClicked(View view) {
 		// is the view now checked?
 		checked = ((CheckBox) view).isChecked();
@@ -111,27 +83,24 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 		
 		// contains a name and GPS-coordinates
 		DataInterface temp = new DataInterface(); 
+		
+		// load DatabaseHandler
+		DatabaseHandler handler = new DatabaseHandler(this);
+
 		// read out the target's name
 		EditText editText = (EditText) findViewById(R.id.set_target_name);
-		
 		temp.setName(editText.getText().toString());
 
-		if (checked) { // Target: current location
+		if (checked) {
 
-			// Check: GPS enabled!
-			temp.setCoordinates( manager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
-
-			SaveLocation(temp.getCoordinates(), temp.getName());
+			// save locations coordinates and set ID
+			temp.setCoordinates(manager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+			long id = handler.addDestination(temp);
+			temp = handler.getDestination(id);
+			setCurrID(id);
 
 		} else { // EXPAND: read in from EditText
 		}
-		
-		
-		//store the destination in the DataBase
-		DatabaseHandler handler = new DatabaseHandler(this);
-		handler.addDestination(temp);
-		//temp=handler.getDestination(0);
-		
 		
 		// add location name to ArrayList
 		locationNames.add(0, editText.getText().toString());
