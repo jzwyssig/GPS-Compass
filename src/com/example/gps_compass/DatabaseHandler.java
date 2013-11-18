@@ -85,6 +85,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		return dest;
 	}
 	
+	// Cursor
+	public Cursor getCursor() {
+		String[] columns = new String[]{KEY_ID, KEY_NAME};
+		Cursor cursor = this.getReadableDatabase().query(TABLE_DESTINATION, columns,
+		  null, null, null, null, null);
+
+		return cursor;
+	}
+	
+	
 	//Getting all Destinations
 	public List<DataInterface> getAllDestinations(){
 		List<DataInterface> destinationList = new ArrayList<DataInterface>();

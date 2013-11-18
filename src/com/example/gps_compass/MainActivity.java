@@ -82,7 +82,6 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         distanceView = (TextView) findViewById(R.id.distance);
         distanceView.setText("Initializing GPS... ");
         
-        
         if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
         	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 400, 1 ,this);
         else; //Warning PopUp

@@ -4,14 +4,17 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -37,7 +40,7 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 	
 	// ArrayList to store location names
 	private ArrayList<String> locationNames = new ArrayList<String>();
-	
+
 	// Store id (SharedPreferences)
 	public static final String ID = "id";
 	
@@ -55,7 +58,9 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 		
 		// load locationList and set the ArrayAdapter with custom Layout listview_items.xml
 		locationList = (ListView) findViewById(R.id.ListView);
-		adapter = new CustomizedAdapter();
+		DatabaseHandler handler = new DatabaseHandler(this);
+		Cursor cursor = handler.getCursor();
+		adapter = new CustomizedAdapter(cursor);
 		locationList.setAdapter(adapter);
 	}
 
@@ -138,18 +143,15 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 
 	}
 	
-	class CustomizedAdapter extends ArrayAdapter<String> {
+	class CustomizedAdapter extends CursorAdapter {
 
-		// constructor
-		public CustomizedAdapter() {
-			super(CreateTargetActivity.this, android.R.layout.simple_list_item_1, locationNames);
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			
-			View row = convertView;
-			
+			public CustomizedAdapter(Cursor cursor) {
+				super(CreateTargetActivity.this, cursor, 1);
+				mLayoutInflater = LayoutInflater.from(getApplicationContext()); 
+			}
+			private LayoutInflater mLayoutInflater;
+		    
+			/**
 			// if-statement: save resources and processing
 			if(row == null) {
 				LayoutInflater inflater = getLayoutInflater(); 
@@ -161,10 +163,26 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 			remove_button.setOnClickListener(new DeleteClickListener(position));
 			
 			ImageButton edit_button = (ImageButton) row.findViewById(R.id.edit_location_name);
+			
 			edit_button.setOnClickListener(new editClickListener(position));
 			
 			((TextView)row.findViewById(R.id.location_name)).setText(locationNames.get(position));
-			return row;
+			return row;*/
+		
+
+		@Override
+		public void bindView(View view, Context context, Cursor cursor) {
+		    DatabaseHandler handler = new DatabaseHandler(context);
+		    TextView locationName = (TextView) view.findViewById(R.id.location_name);
+	        if (locationName != null) {
+		       	locationName.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(1))));
+		    }
+		}
+
+		@Override
+		public View newView(Context context, Cursor cursor, ViewGroup parent) {
+	        View v = mLayoutInflater.inflate(R.layout.listview_items, parent, false);
+	        return v;
 		}
 	}
 	private class editClickListener implements OnClickListener {
