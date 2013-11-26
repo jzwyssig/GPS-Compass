@@ -13,6 +13,122 @@
         android:text="@string/use_current_location" />
 
     <LinearLayout
+        android:id="@+id/coordinates"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/longitude" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/longitude_degree"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/longitude_degree"
+                android:inputType="numberSigned" 
+                android:maxLength="2" />
+
+            <EditText
+                android:id="@+id/longitude_minutes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/longitude_minutes"
+                android:inputType="number" 
+                android:maxLength="2" />
+
+            <EditText
+                android:id="@+id/longitude_seconds"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/longitude_seconds"
+                android:inputType="numberDecimal"
+                android:maxLength="4" />
+            
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/latitude" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/latitude_degree"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/latitude_degree"
+                android:inputType="numberSigned" 
+                android:maxLength="2" />
+
+            <EditText
+                android:id="@+id/latitude_minutes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/latitude_minutes"
+                android:inputType="number" 
+                android:maxLength="2" />
+
+            <EditText
+                android:id="@+id/latitude_seconds"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/latitude_seconds"
+                android:inputType="numberDecimal"
+                android:maxLength="4"  />
+            
+        </LinearLayout>
+        
+         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/swiss_grid" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/easting"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/easting"
+                android:inputType="number" 
+                android:maxLength="6" />
+
+            <EditText
+                android:id="@+id/northing"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/northing"
+                android:inputType="number" 
+                android:maxLength="6" />
+
+            
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -27,25 +143,17 @@
             android:maxLength="20" />
 
         <Button
+            android:id="@+id/add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="addLocation"
-            android:text="@string/set_button" />
+            android:text="@string/add_button" />
     </LinearLayout>
 
     <ListView
         android:id="@+id/ListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-        <!--
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="5dp"
-        android:background="@android:color/transparent"
-        android:cacheColorHint="@android:color/transparent"
-        android:divider="#CCCCCC"
-        android:dividerHeight="1dp"
-        android:paddingLeft="2dp"
-        -->
     </ListView>
 
 </LinearLayout>

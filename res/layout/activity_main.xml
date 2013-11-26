@@ -1,44 +1,71 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_repeat"
     android:orientation="vertical" >
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="newTarget"
-        android:text="@string/button_create" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <ImageView
-            android:id="@+id/imageViewCompass"
-            android:layout_width="280dp"
-            android:layout_height="280dp"
-            android:layout_centerInParent="true"
-            android:contentDescription="@string/content_desc_compass"
-            android:src="@drawable/compass_background" />
-
-        <ImageView
-            android:id="@+id/imageViewCompassNeedle"
-            android:layout_width="280dp"
-            android:layout_height="280dp"
-            android:layout_centerInParent="true"
-            android:contentDescription="@string/content_desc_compass_needle"
-            android:src="@drawable/compass_needle" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" >
 
         <TextView
-            android:id="@+id/distance"
-            android:layout_width="match_parent"
+            android:id="@+id/showDestination"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="25dp"
-            android:background="#024796"
-            android:padding="8dip"
-            android:textColor="#FFFFFF" />
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="35dp"
+            android:background="@color/transparent"
+            android:textColor="@color/ivory"
+            android:textSize="28sp" />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/abc_list_selector_holo_light"
+            android:contentDescription="@string/button_create"
+            android:onClick="newTarget"
+            android:scaleType="fitXY"
+            android:src="@drawable/add" />
     </RelativeLayout>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/imageViewCompass"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        android:antialias="true"
+        android:contentDescription="@string/content_desc_compass"
+        android:dither="true"
+        android:filter="true"
+        android:src="@drawable/compass" />
+
+    <ImageView
+        android:id="@+id/imageViewCompassNeedle"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerInParent="true"
+        android:antialias="true"
+        android:contentDescription="@string/content_desc_compass_needle"
+        android:dither="true"
+        android:filter="true"
+        android:src="@drawable/needle_darkred" />
+
+    <TextView
+        android:id="@+id/distance"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/textview_bg"
+        android:gravity="center"
+        android:textColor="@color/ivory"
+        android:textSize="25sp" />
+
+</RelativeLayout>

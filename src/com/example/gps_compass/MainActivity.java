@@ -3,6 +3,7 @@ package com.example.gps_compass;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.PixelFormat;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -15,6 +16,7 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,43 +46,45 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     //define textView
     private TextView distanceView;
 
-	// returns the id of the current location 
+	// returns the current location 
 	public DataInterface getSavedLocation() {
 			
 		// set DatabaseHandler and get saved ID from SharedPreferences
 		DatabaseHandler handler = new DatabaseHandler(this);
 		SharedPreferences currentLocation = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		long id = currentLocation.getLong(ID, 0);
+		long id = currentLocation.getLong(ID, -1);
 			
 		// create tmpDataInterface, contains current location and its name
 		DataInterface tmpDataInterface = new DataInterface();
 		tmpDataInterface.setId(id);
-		//tmpDataInterface.setName("");
-		//tmpDataInterface.setCoordinates(new Location("GPS_PROVIDER"));
+		tmpDataInterface.setName("");
+		tmpDataInterface.setCoordinates(new Location("GPS_PROVIDER"));
 		
-		//if (id != 0){
+		if (id != -1 ){
 			tmpDataInterface.setName(handler.getDestination(id).getName());
 			tmpDataInterface.setCoordinates(handler.getDestination(id).getCoordinates());
-		//}
+		}
 		return tmpDataInterface;
 	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getWindow().setFormat(PixelFormat.RGBA_8888);
 		setContentView(R.layout.activity_main);
-		
 		// compass image 
         image_compass = (ImageView) findViewById(R.id.imageViewCompass);
         image_needle = (ImageView) findViewById(R.id.imageViewCompassNeedle);
-
+        
         // initialize your android device sensor capabilities
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         locationManager =  (LocationManager) getSystemService(LOCATION_SERVICE);
-        
-        //initialize TextView
+
+        // initialize TextView
         distanceView = (TextView) findViewById(R.id.distance);
         distanceView.setText("Initializing GPS... ");
+        TextView destinationView = (TextView) findViewById(R.id.showDestination);
+        destinationView.setText("Select / Add Destination");
         
         if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
         	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 400, 1 ,this);
@@ -135,9 +139,9 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                 currentDegree_compass, -degree,
                 Animation.RELATIVE_TO_SELF, 0.5f, 
                 Animation.RELATIVE_TO_SELF, 0.5f);
-
+        ra.setInterpolator(new LinearInterpolator());
         // how long the animation will take place
-        ra.setDuration(210);
+        ra.setDuration(5000);
 
         // set the animation after the end of the reservation status
         ra.setFillAfter(true);
@@ -154,9 +158,9 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                 currentDegree_needle, -degree,
                 Animation.RELATIVE_TO_SELF, 0.5f, 
                 Animation.RELATIVE_TO_SELF, 0.5f);
-
+        ra.setInterpolator(new LinearInterpolator());
         // how long the animation will take place
-        ra.setDuration(210);
+        ra.setDuration(5000);
 
         // set the animation after the end of the reservation status
         ra.setFillAfter(true);
@@ -191,14 +195,16 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
 		
 		// note: angle is element of [-180°, 180°]
 		targetAngle =  (360 + arg0.bearingTo(target.getCoordinates())) % 360;
+
+		TextView showDestination = (TextView) findViewById(R.id.showDestination);
+		showDestination.setText(target.getName());
 		
 		// set output to meters for a distance < 1000m, otherwise rounded kilometers.
+		
 		if(targetDistance < 1000){
-		distanceView.setText("Distance to " + target.getName() 
-				+ ": " + (int)targetDistance + "\u2009" + "m");
+		distanceView.setText((int)targetDistance + "\u2009" + "m");
 		}
-		else distanceView.setText("Distance to " + target.getName()
-				+ ": " + (float)Math.round(targetDistance/10) / 100.0f + "\u2009" + "km");
+		else distanceView.setText((float)Math.round(targetDistance/10) / 100.0f + "\u2009" + "km");
 	}
 	
 	

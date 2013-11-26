@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 	//Database version
-	private static final int DATABASE_VERSION = 10;
+	private static final int DATABASE_VERSION = 1;
 	//Database name
 	private static final String DATABASE_NAME = "destinationManager";
 	//Destination table name
@@ -60,8 +60,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getWritableDatabase();
 		
 		ContentValues values = new ContentValues();
-		// ??? "" ??
-		values.put(KEY_NAME, dest.getName()+"");//<-- "" war nicht da
+		values.put(KEY_NAME, dest.getName()+"");
 		values.put(KEY_LONGITUDE, dest.getLongitude()+"");
 		values.put(KEY_LATITUDE, dest.getLatitude()+"");
 		
@@ -76,7 +75,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	public DataInterface getDestination(long id){
 		SQLiteDatabase db = this.getReadableDatabase();
 		
-		Cursor cursor = db.query(TABLE_DESTINATION, new String[]{ KEY_ID,  KEY_NAME,KEY_LONGITUDE, KEY_LATITUDE },KEY_ID + "=?", new String[]{ String.valueOf(id)}, null, null, null, null);
+		Cursor cursor = db.query(TABLE_DESTINATION, new String[]{ KEY_ID,  KEY_NAME, KEY_LONGITUDE, KEY_LATITUDE },KEY_ID + "=?", new String[]{ String.valueOf(id)}, null, null, null, null);
 		
 		if (cursor != null)
 			cursor.moveToFirst();
@@ -88,9 +87,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	// Cursor
 	public Cursor getCursor() {
 		String[] columns = new String[]{KEY_ID, KEY_NAME};
-		Cursor cursor = this.getReadableDatabase().query(TABLE_DESTINATION, columns,
-		  null, null, null, null, null);
-
+		Cursor cursor = this.getReadableDatabase().query(TABLE_DESTINATION, columns, null, null, null, null, "_id desc" );
 		return cursor;
 	}
 	
@@ -123,7 +120,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		return destinationList;
 	}
 	
-	//Getting Destination-counts
+	// Getting Destination-counts
 	public int getDestinationNumber(){
 		
 		String countQuery = "SELECT * FROM" + TABLE_DESTINATION;
@@ -133,24 +130,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				
 		return cursor.getCount();
 	}
-	//Updating single Destination
-	public int updateDestination(DataInterface dest){
+	
+	// Updating single Destination
+	public int updateDestination(long id, String newName){
 		SQLiteDatabase db = this.getWritableDatabase();
 		
 		ContentValues values = new ContentValues();
 		
-		values.put(KEY_NAME,dest.getName());
-		values.put(KEY_LATITUDE, dest.getLatitude());
-		values.put(KEY_LONGITUDE, dest.getLongitude());
+		values.put(KEY_NAME, newName);
 		
 		//updating row
-		return db.update(TABLE_DESTINATION, values, KEY_ID +"=?", new String[]{String.valueOf(dest.getId())});
+		return db.update(TABLE_DESTINATION, values, KEY_ID +"=?", new String[]{String.valueOf(id)});
 	}
-	//Deleting single Destination
-	public void deleteDestination(DataInterface dest){
+	
+	// Deleting single Destination
+	public void deleteDestination(long id){
 		SQLiteDatabase db = this.getWritableDatabase();
-		db.delete(TABLE_DESTINATION, KEY_ID + "=?", new String[]{String.valueOf(dest.getId())});
-		
+		db.delete(TABLE_DESTINATION, KEY_ID + "=?", new String[]{String.valueOf(id)});
 	}
 	
 	
