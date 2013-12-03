@@ -3,6 +3,7 @@
     <color name="transparent">#00000000</color>
     <color name="white">#FFFFFF</color>
     <color name="ivory">#FFFFF0</color>
+    <color name="darkgrey">#292829</color>
     <color name="lightblue">#219DDD</color>
     <color name="black">#000000</color>
 </resources>

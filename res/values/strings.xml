@@ -24,5 +24,7 @@
     <string name="latitude_seconds">\" seconds</string>
     <string name="swiss_grid">Swiss Grid</string>
     <string name="easting">y: easting [m]</string>
-    <string name="northing">x: northing [m]</string>    
+    <string name="northing">x: northing [m]</string>  
+    <string name="show_gps_coordinates">GPS coordinates</string>
+    <string name="show_swiss_grid">Swiss-Grid</string>      
 </resources>

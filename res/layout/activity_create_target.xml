@@ -12,7 +12,7 @@
         android:onClick="onCheckBoxClicked"
         android:text="@string/use_current_location" />
 
-    <LinearLayout
+    <LinearLayout 
         android:id="@+id/coordinates"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/longitude_degree"
-                android:inputType="numberSigned" 
+                android:inputType="numberSigned"
                 android:maxLength="2" />
 
             <EditText
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/longitude_minutes"
-                android:inputType="number" 
+                android:inputType="number"
                 android:maxLength="2" />
 
             <EditText
@@ -54,7 +54,6 @@
                 android:hint="@string/longitude_seconds"
                 android:inputType="numberDecimal"
                 android:maxLength="4" />
-            
         </LinearLayout>
 
         <TextView
@@ -73,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/latitude_degree"
-                android:inputType="numberSigned" 
+                android:inputType="numberSigned"
                 android:maxLength="2" />
 
             <EditText
@@ -82,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/latitude_minutes"
-                android:inputType="number" 
+                android:inputType="number"
                 android:maxLength="2" />
 
             <EditText
@@ -92,11 +91,10 @@
                 android:layout_weight="1"
                 android:hint="@string/latitude_seconds"
                 android:inputType="numberDecimal"
-                android:maxLength="4"  />
-            
+                android:maxLength="4" />
         </LinearLayout>
-        
-         <TextView
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/swiss_grid" />
@@ -112,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/easting"
-                android:inputType="number" 
+                android:inputType="number"
                 android:maxLength="6" />
 
             <EditText
@@ -121,10 +119,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/northing"
-                android:inputType="number" 
+                android:inputType="number"
                 android:maxLength="6" />
-
-            
         </LinearLayout>
     </LinearLayout>
 

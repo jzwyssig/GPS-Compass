@@ -58,8 +58,8 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 		CheckBox cb = (CheckBox) findViewById(R.id.checkbox_use_current_location);
 		cb.setChecked(true);
 		
-		LinearLayout test = (LinearLayout) findViewById(R.id.coordinates);
-		test.setVisibility(View.GONE);
+		LinearLayout enterCoordinatesManually = (LinearLayout) findViewById(R.id.coordinates);
+		enterCoordinatesManually.setVisibility(View.GONE);
 		
 		// load locationList and set the ArrayAdapter with custom Layout listview_items.xml
 		locationList = (ListView) findViewById(R.id.ListView);
@@ -152,11 +152,6 @@ public class CreateTargetActivity extends Activity implements LocationListener {
 		return lng;
 	}
 	
-	// returns true if EditText is empty
-	private boolean isEmpty(EditText editText) {
-        return editText.getText().toString().trim().length() == 0;
-    }
-
 	// Source code from button_add
 	public void addLocation(View view) {
 		
