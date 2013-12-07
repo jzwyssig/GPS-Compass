@@ -1,6 +1,8 @@
 package com.example.gps_compass;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
@@ -88,7 +90,22 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         
         if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
         	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 400, 1 ,this);
-        else; //Warning PopUp
+        
+        else{//Warning PopUp
+        	AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+			alertDialog.setTitle("GPS disabled");
+	        alertDialog.setMessage("Please activate the GPS-tracking");
+			      
+			// Setting confirm Button
+	        alertDialog.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.cancel();	
+				}
+			});	       
+	        // Showing Alert Message
+	        alertDialog.show();
+	        
+        }
 	}
 	
 	@Override
