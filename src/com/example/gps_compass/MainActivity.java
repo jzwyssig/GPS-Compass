@@ -88,24 +88,32 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         TextView destinationView = (TextView) findViewById(R.id.showDestination);
         destinationView.setText("Select / Add Destination");
         
-        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
-        	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 400, 1 ,this);
-        
-        else{//Warning PopUp
-        	AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+        if(! locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){//Warning PopUp
+        	final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 			alertDialog.setTitle("GPS disabled");
-	        alertDialog.setMessage("Please activate the GPS-tracking");
+	        alertDialog.setMessage("For propre functionality GPS is required. Do you want to enable it?");
 			      
-			// Setting confirm Button
-	        alertDialog.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+			// Setting Yes Button
+	        alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+					//dialog.cancel();	
+				}
+			});
+	        
+	     // Setting No Button
+	        alertDialog.setNegativeButton("Ignore", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.cancel();	
 				}
-			});	       
+			});
+	        
+	        
 	        // Showing Alert Message
 	        alertDialog.show();
 	        
         }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 400, 1 ,this);
 	}
 	
 	@Override
